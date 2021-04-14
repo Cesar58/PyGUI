@@ -110,5 +110,5 @@ bequal.grid(row=4, column=2)
 badd.grid(row=4, column=3)
 
 
-root["bg"] = "#dddddd"
+root["bg"] = "#ddddda"
 root.mainloop()
