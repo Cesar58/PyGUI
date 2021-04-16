@@ -101,7 +101,7 @@ def winlos():
 		if diagonal2[0] == diagonal2[1] == diagonal2[2]:
 			ok = True
 			valor = diagonal2[0]
-	if jogadas == 5 and ok:
+	if jogadas == 5 and ok == False:
 		ok = True
 		valor = 'V'
 	else:
