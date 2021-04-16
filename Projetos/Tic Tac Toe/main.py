@@ -1,9 +1,10 @@
 from tkinter import *
+from tkinter import messagebox
 import random
 
 root = Tk()
 
-def zerar(nome):
+def zerar():
 	for elem in elements:
 		canvas.itemconfigure(elem, text=' ')
 	Xbutton["state"] = NORMAL
@@ -12,7 +13,6 @@ def zerar(nome):
 	escolha = ''
 	global jogadas
 	jogadas = 1
-	nome.destroy()
 
 
 def onClick(n, labelName1, labelName2):
@@ -118,17 +118,14 @@ def winlos():
 
 
 def vencedor(e):
-	restart = Toplevel(root)
-	restart.geometry("300x100")
-	restart["bg"] = "#ffffff"
-	restart.title("Jogar novamente?")
 	if e == 'X' or e == 'O':
-		Label(restart, text=f'{e} venceu! Jogar novamente?',font=("Segoe UI",15), bg="#ffffff", fg="#aa0000").place(x=25,y=10)
+		restart = messagebox.askyesno("Resultado",f'{e} venceu!!! Jogar novamente?')
 	else:
-		Label(restart, text=f'Deu velha! Jogar novamente?',font=("Segoe UI",15), bg="#ffffff", fg="#aa0000").place(x=25,y=10)
-	Button(restart, text="SIM", bg="#aa0000", fg="#ffffff", padx=10, command=lambda: zerar(restart)).place(x=82,y=40)
-	Button(restart, text="NÃO", bg="#aa0000", fg="#ffffff", padx=10, command=quit).place(x=162,y=40)
-
+		restart = messagebox.askyesno("Resultado", "Deu VELHA!!! Jogar novamente?")
+	if restart == 1:
+		zerar()
+	else:
+		quit()
 
 def fillSpace(event, element):
 	global escolha
@@ -139,11 +136,10 @@ def fillSpace(event, element):
 		ctext = canvas.itemcget(element, 'text')
 		if ctext == ' ':
 			canvas.itemconfigure(element, text=escolha)
+			randomFill()
 			venceu,quem = winlos()
 			if venceu:
-				vencedor(quem)
-			else:
-				randomFill()
+				vencedor(quem)		
 		else:
 			pass
 
