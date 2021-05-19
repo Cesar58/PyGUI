@@ -1,62 +1,87 @@
 from tkinter import *
+from tkinter import messagebox
 
 
 root = Tk()
+root.title('Login & Registration')
+titleLabel = Label(root, text="Login & Registration", bg="#dddddd", font=('Segoe UI',11))
+titleLabel.place(x=185,y=10)
 
-def newClient(event):
-	root.geometry("500x400")
-	nameLabel = Label(root, text="Nome completo", bg="#dddddd")
-	nameEntry = Entry(root, width=40)
-	usernameLabel = Label(root, text="Nome de usuário", bg="#dddddd")
-	usernameEntry = Entry(root, width=40)
-	emailLabel = Label(root, text="E-mail", bg="#dddddd")
-	emailEntry = Entry(root, width=40)
-	passwordLabel2 = Label(root, text="Senha", bg="#dddddd")
-	passwordEntry2 = Entry(root, width=40)
-	verifyPassLabel = Label(root, text="Confirme sua Senha", bg="#dddddd")
-	verifyPassEntry = Entry(root, width=40)
-	submitButton = Button(root, text="Cadastrar")
-
-	nameLabel.place(x=10,y=160)
-	nameEntry.place(x=190,y=160)
-	usernameLabel.place(x=10,y=200)
-	usernameEntry.place(x=190,y=200)
-	emailLabel.place(x=10,y=240)
-	emailEntry.place(x=190,y=240)
-	passwordLabel2.place(x=10,y=280)
-	passwordEntry2.place(x=190,y=280)
-	verifyPassLabel.place(x=10,y=320)
-	verifyPassEntry.place(x=190,y=320)
-	submitButton.place(x=210,y=360)
-
-
-
-def verifyLogin(event):
-	if event.keysym == 'Return':
-		alertLabel["text"] = "Deu enter!"
+#functions
+def newAccount(event):
+    global root
+    root.geometry("500x480")
+    name_label = Label(root, text="Name:", bg="#dddddd", font=('Segoe UI', 11))
+    name_input = Entry(root, width=40, font=('Segoe UI', 11))
+    email_label = Label(root, text="E-mail:", bg="#dddddd", font=('Segoe UI', 11))
+    email_input = Entry(root, width=40, font=('Segoe UI', 11))
+    new_username_label = Label(root, text="Username:", bg="#dddddd", font=('Segoe UI', 11))
+    new_username_input = Entry(root, width=40, font=('Segoe UI', 11))
+    new_password_label = Label(root, text="Password:", bg="#dddddd", font=('Segoe UI', 11))
+    new_password_input = Entry(root, width=40, font=('Segoe UI', 11))
+    confirm_password_label = Label(root, text='Confirm Password:', bg="#dddddd", font=('Segoe UI', 11))
+    confirm_password_input = Entry(root, width=40, font=('Segoe UI',11))
+    reg_button = Button(root, text="Register new account", bg="#bbbbbb", font=('Segoe UI',11))
+    #place
+    name_label.place(x=20,y=220)
+    name_input.place(x=150,y=220)
+    email_label.place(x=20, y=260)
+    email_input.place(x=150,y=260)
+    new_username_label.place(x=20,y=300)
+    new_username_input.place(x=150,y=300)
+    new_password_label.place(x=20,y=340)
+    new_password_input.place(x=150,y=340)
+    confirm_password_label.place(x=20,y=380)
+    confirm_password_input.place(x=150,y=380)
+    reg_button.place(x=170,y=420)
 
 
-logLabel = Label(root, text="Nome de usuário ou e-mail", bg="#dddddd")
-logEntry = Entry(root, width=40)
+def login():
+    global username_input
+    global password_input
+    ok = False
+    un = username_input.get()
+    pw = password_input.get()
+    users_file = open('users.txt','r')
+    uv = users_file.read().split('\n')
+    users = []
+    for i in range(0,len(uv)):
+        current = uv[i].split('  ')
+        users.append(current[:])
+        current.clear()
+    for sl in users:
+        if sl[2] == un and sl[3] == pw:
+            ok = True
+            break
+        else:
+            ok = False
+            break
+    if ok:
+        pass
+    else:
+        messagebox.showerror("ERROR","Incorrect username or password!")
+    users_file.close()
 
-passwordLabel = Label(root, text="Senha", bg="#dddddd")
-passwordEntry = Entry(root, width=40)
-passwordEntry.bind('<Key>', verifyLogin)
 
-logLabel.place(x=10,y=20)
-logEntry.place(x=190,y=20)
-passwordLabel.place(x=10,y=60)
-passwordEntry.place(x=190,y=60)
+#creating
+username = Label(root, text="Username:",bg="#dddddd",font=('Segoe UI',11))
+username_input = Entry(root, width=40,font=('Segoe UI',11))
+password = Label(root, text="Password:",bg="#dddddd",font=('Segoe UI',11))
+password_input = Entry(root, width=40,font=('Segoe UI',11))
+login_button = Button(root, text="Login", bg="#bbbbbb", font=('Segoe UI', 11), command=login)
+new_user = Label(root, text="Create Account", bg="#dddddd", fg="#0000ff", font=('Segoe UI', 11))
+new_user.bind("<Button-1>",newAccount)
 
-registerInf = Label(root, text="Não tem conta? Faça seu cadastro", fg="#0000ff", bg="#dddddd")
-registerInf.place(x=150,y=110)
+#place on screen
+username.place(x=20,y=60)
+username_input.place(x=150,y=60)
+password.place(x=20,y=100)
+password_input.place(x=150,y=100)
+login_button.place(x=230,y=140)
+new_user.place(x=200,y=190)
 
-registerInf.bind('<Button-1>', newClient)
-
-alertLabel = Label(root, text=' ', justify=CENTER, bg="#dddddd")
-alertLabel.place(x=180,y=140)
-
+#root sheets
 root["bg"] = "#dddddd"
 root.resizable(0,0)
-root.geometry("500x190")
+root.geometry("500x230")
 root.mainloop()
