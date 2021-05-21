@@ -4,27 +4,27 @@ import random
 
 root = Tk()
 
-def zerar():
+def reset():
 	for elem in elements:
 		canvas.itemconfigure(elem, text=' ')
 	Xbutton["state"] = NORMAL
 	Obutton["state"] = NORMAL
-	global escolha
-	escolha = ''
+	global userChoice
+	userChoice = ''
 	global jogadas
 	jogadas = 1
 
 
 def onClick(n, labelName1, labelName2):
-	global escolha
+	global userChoice
 	labelName1["state"] = DISABLED
 	labelName2["state"] = DISABLED
 	alertLabel["fg"] = "#ffffff"
 	alertLabel["bg"] = "#aa0000"
 	if n == 1:
-		escolha = 'X'
+		userChoice = 'X'
 	else:
-		escolha = 'O'
+		userChoice = 'O'
 
 
 def randomChoice():
@@ -33,12 +33,12 @@ def randomChoice():
 
 
 def randomFill():
-	global escolha
+	global userChoice
 	cont = 0
-	if escolha == 'X':
-		randomEscolha = 'O'
+	if userChoice == 'X':
+		randomuserChoice = 'O'
 	else:
-		randomEscolha = 'X'
+		randomuserChoice = 'X'
 	for el in elements:
 		canvText = canvas.itemcget(el, 'text')
 		if canvText == ' ':
@@ -50,7 +50,7 @@ def randomFill():
 			rw = randomChoice()
 			ctext = canvas.itemcget(rw, 'text')
 		else:
-			canvas.itemconfigure(rw, text=randomEscolha)
+			canvas.itemconfigure(rw, text=randomuserChoice)
 	else:
 		pass
 
@@ -117,34 +117,34 @@ def winlos():
 	return ok,valor
 
 
-def vencedor(e):
+def winner(e):
 	if e == 'X' or e == 'O':
 		restart = messagebox.askyesno("Resultado",f'{e} venceu!!! Jogar novamente?')
 	else:
 		restart = messagebox.askyesno("Resultado", "Deu VELHA!!! Jogar novamente?")
 	if restart == 1:
-		zerar()
+		reset()
 	else:
 		quit()
 
 def fillSpace(event, element):
-	global escolha
-	if escolha == '':
+	global userChoice
+	if userChoice == '':
 		alertLabel["bg"] = "#ffffff"
 		alertLabel["fg"] = "#aa0000"
 	else:
 		ctext = canvas.itemcget(element, 'text')
 		if ctext == ' ':
-			canvas.itemconfigure(element, text=escolha)
+			canvas.itemconfigure(element, text=userChoice)
 			randomFill()
 			venceu,quem = winlos()
 			if venceu:
-				vencedor(quem)		
+				winner(quem)		
 		else:
 			pass
 
 
-escolha = ''
+userChoice = ''
 jogadas = 1
 
 canvas = Canvas(root, bg="#aa0000", highlightthickness=0, highlightbackground="#ffffff", height=300, width=300)

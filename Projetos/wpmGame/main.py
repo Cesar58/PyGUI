@@ -9,6 +9,7 @@ root.title('WPM Game')
 #defining
 words = ['sight', 'defendant', 'thrust', 'stay', 'pupil', 'eavesdrop', 'chew', 'drown', 'clarify', 'uncertainty', 'scream', 'similar', 'missile', 'direct', 'salon', 'nuance', 'soar', 'donor', 'duty', 'brake', 'charismatic', 'balance', 'cabinet', 'yard', 'throat', 'distant', 'integration', 'prefer', 'excess', 'consumer', 'tough', 'soup', 'insist', 'memorandum', 'flavor', 'spare', 'chance', 'hiccup', 'flower', 'station', 'absorb', 'last', 'state', 'elapse', 'tension', 'snow', 'rational', 'sentence', 'joke', 'deteriorate','core', 'publicity', 'complication', 'heal', 'far', 'functional', 'printer', 'fair', 'sweater', 'relax', 'gallery', 'discriminate', 'college', 'pride', 'sheep', 'back', 'apathy', 'alive', 'traction', 'ice', 'ego', 'variety', 'inspire', 'commerce', 'switch', 'likely', 'active', 'forget', 'contrast', 'error', 'inquiry', 'race', 'truck', 'parameter', 'architecture', 'corruption', 'response', 'tumour', 'swear', 'captivate', 'potential', 'killer', 'credibility', 'formulate', 'kneel', 'variable', 'hammer', 'conference', 'insure', 'finger','bronze', 'mechanism', 'member', 'biography', 'outlet', 'bar', 'color', 'offspring', 'spirit', 'salmon', 'separate', 'he', 'junior', 'empire', 'clinic', 'dose', 'sow', 'equal', 'see', 'adjust', 'gun', 'presidency', 'mother', 'office', 'convince', 'breakfast', 'sit', 'bleed', 'plane', 'scholar', 'incongruous', 'eye', 'emotion', 'information', 'handy', 'way', 'hostile', 'overcharge', 'face', 'witness', 'iron', 'likely', 'favour', 'net', 'restrict', 'anniversary', 'influence', 'weed', 'fee', 'store', 'needle', 'reaction', 'pedestrian', 'switch', 'heavy', 'powder', 'argument', 'clarify', 'bland', 'collar', 'warn', 'brainstorm', 'white', 'pneumonia', 'threshold', 'inflation', 'gear', 'an', 'shot', 'mourning', 'border', 'achievement', 'exploit', 'quiet', 'old', 'girlfriend', 'spokesperson', 'fair', 'comment', 'court', 'bottom', 'principle', 'quote', 'layer', 'feeling', 'collection', 'direction', 'default', 'rib', 'raise', 'business', 'matter', 'cylinder', 'professor', 'decide', 'fabricate', 'case', 'promotion', 'permission', 'nominate']
 onScreen = []
+toLabel = StringVar()
 
 def levelSelector(event,number):
     global level20
@@ -19,6 +20,7 @@ def levelSelector(event,number):
     global words
     global frameWords
     global onScreen
+    global toLabel
     if number == 20:
         level20['font'] = helvBoldUnder
         level50['font'] = helvBold
@@ -50,21 +52,13 @@ def levelSelector(event,number):
         level150['font'] = helvBold
         level200['font'] = helvBoldUnder
     if len(onScreen) > 0:
-        for el in onScreen:
-            el.destroy()
         onScreen.clear()
-    column_counter = 0
-    row_counter = 0
+    helpful = ''
     for w in range(0,number):
-        toLabel = random.choice(words)
-        wd = Label(frameWords, text=toLabel, bg='#3F2D54', fg='#EFFF08', font=helvWord)
-        wd.grid(row=row_counter,column=column_counter)
+        wd = random.choice(words)
         onScreen.append(wd)
-        if column_counter == 7:
-            column_counter = 0
-            row_counter += 1
-        else:
-            column_counter += 1
+        helpful = helpful + f'{wd} '
+    toLabel.set(helpful)
 
     
 
@@ -114,7 +108,7 @@ level200.bind('<Button-1>',lambda event: levelSelector(event,200))
 
 #principal screen
 frameWords = Frame(root, highlightthickness=1, bg='#3F2D54',width=650,height=320)
-
+Label(frameWords, text=toLabel.get(), bg='#3F2D54', fg='#EFFF08', font=helvWord,wraplength=650).place(x=0,y=0)
 
 frameUser = Frame(root,highlightthickness=2,highlightcolor='#EFFF08',highlightbackground='#EFFF08')
 userInput = Entry(frameUser, bd=0,bg='#1D0B32',fg="#FFFFFF",width=45,font=helv)
